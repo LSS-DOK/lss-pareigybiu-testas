@@ -60,18 +60,19 @@ export class QuestionService {
   }
 
   getQuestions(numOptions: number) : IQuestion[] {
+    numOptions = Math.min(numOptions, RANKS.length);
+
     let me = this;
     let q : IQuestion[] = [];
 
     RANKS.forEach(function(r) {
-      let optionsSet = new Set<IOption>();
-      optionsSet.add({ title: r.title, correct: true} );
-      while (optionsSet.size < numOptions) {
-        optionsSet.add({ title: RANKS[me.randInt(RANKS.length)].title });
-      }
-      let options = me.shuffle([...optionsSet!]);
+      let optionsSet = new Set<string>();
 
-      q.push({ img: r.img, options: options });
+      optionsSet.add(r.title);
+      while (optionsSet.size < numOptions)
+        optionsSet.add(RANKS[me.randInt(RANKS.length)].title);
+
+      q.push({ img: r.img, options: me.shuffle([...optionsSet!].map(x => ({ title: x, ...(x===r.title && { correct: true } )}))) });
     });
 
     return this.shuffle(q);
