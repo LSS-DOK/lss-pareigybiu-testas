@@ -10,12 +10,12 @@ li {
 }
 
 li .card:hover {
-    border: 1px solid green;
+    border: 1px solid darkgreen;
     cursor: pointer;
 }
 
 li .card.disabled {
-    border: 1px solid red;
+    border: 1px solid darkred;
     color: gray;
     cursor: not-allowed;
 }
