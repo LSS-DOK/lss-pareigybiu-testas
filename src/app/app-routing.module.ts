@@ -5,10 +5,10 @@ import { ResultsComponent } from './results/results.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  {'path': '', redirectTo:'sveiks', pathMatch:'full'},
-  {'path':'sveiks', component:WelcomeComponent},
-  {'path':'klausimas', component:QuestionComponent},
-  {'path':'rezultatai', component:ResultsComponent}
+  {'path':'sveiks/', component:WelcomeComponent},
+  {'path':'klausimai/', component:QuestionComponent},
+  {'path':'rezultatai/', component:ResultsComponent},
+  {'path': '**', redirectTo:'sveiks/'},
 ];
 
 @NgModule({

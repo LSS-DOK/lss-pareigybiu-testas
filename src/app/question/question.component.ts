@@ -17,6 +17,11 @@ export class QuestionComponent {
   public disabledButtons: HTMLElement[] = [];
 
   constructor(private questionService: QuestionService, private router: Router) {
+    let state = this.router.getCurrentNavigation()?.extras.state as { welcomeShown : boolean };
+
+    if (state?.welcomeShown === undefined || !state.welcomeShown) {
+      router.navigateByUrl('/');
+    }
   }
 
   ngOnInit() : void {
@@ -28,6 +33,9 @@ export class QuestionComponent {
   }
 
   answer(button: HTMLElement, questionNumber: number, opt : IOption) {
+    if (this.disabledButtons.includes(button))
+      return;
+
     if (opt.correct) {
       if (this.disabledButtons.length == 0) {
         ++this.firstTryCounter;
@@ -36,7 +44,7 @@ export class QuestionComponent {
       }
       ++this.currentQuestion;
       if (this.currentQuestion == this.questionList.length) {
-        this.router.navigateByUrl('rezultatai', { state: { firstTryCounter: this.firstTryCounter, wrongCounter: this.wrongCounter } });
+        this.router.navigateByUrl('rezultatai/', { state: { firstTryCounter: this.firstTryCounter, wrongCounter: this.wrongCounter } });
       }
     } else {
       ++this.wrongCounter;

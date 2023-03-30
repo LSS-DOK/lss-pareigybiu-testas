@@ -11,8 +11,12 @@ export class ResultsComponent {
   public wrongCounter: number = 0;
 
   constructor(private router : Router) {
-    console.log(this.router.getCurrentNavigation()?.extras.state);
     let state = this.router.getCurrentNavigation()?.extras.state as { firstTryCounter : number, wrongCounter: number };
+
+    if (state?.firstTryCounter === undefined || state?.wrongCounter === undefined) {
+      router.navigateByUrl('/');
+    }
+
     this.firstTryCounter = state.firstTryCounter;
     this.wrongCounter = state.wrongCounter;
   }
