@@ -9,14 +9,25 @@
             </div>
         </div>
         <div class="question">
-            <div class="card">
+            <div class="card" *ngIf="mode == Mode.CLASSIC">
                 <h3>Kokia tai pareigybė?</h3>
                 <img src="{{questionList[currentQuestion].img}}" width="60px" height="100px"/>
             </div>
+            <div class="card" *ngIf="mode == Mode.REVERSE">
+                <h3>Koks šios pareigybės ženklinimas?</h3>
+                <div class="card" style="margin: 0;">
+                    <span><b>{{questionList[currentQuestion].title}}</b></span>
+                </div>
+            </div>
         </div>
-        <div class="options">
-            <ol *ngFor="let option of questionList[currentQuestion].options">
-                <li #button (click)="answer(button, currentQuestion, option)"><div class="card" [ngClass]="disabledButtons.includes(button) ? {  disabled: 'yes' } : {}">{{option.title}}</div></li>
+        <div class="options" [ngClass]="{ 'reverse-mode': mode == Mode.REVERSE }">
+            <ol>
+                <li *ngFor="let option of questionList[currentQuestion].options" #button (click)="answer(button, currentQuestion, option)">
+                    <div *ngIf="mode == Mode.CLASSIC" class="card" [ngClass]="disabledButtons.includes(button) ? { disabled: 'yes' } : {}">{{option.title}}</div>
+                    <div *ngIf="mode == Mode.REVERSE" class="card" [ngClass]="disabledButtons.includes(button) ? { disabled: 'yes' } : {}">
+                        <img src="{{option.img}}" width="60px" height="100px"/>
+                    </div>
+                </li>
             </ol>
         </div>
     </div>

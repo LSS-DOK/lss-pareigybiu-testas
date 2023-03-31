@@ -25,14 +25,18 @@ const RANKS = [
   { img: 'assets/img/22.png', title: 'LŠS vadas' }
 ];
 
+export const NUM_RANKS : number = RANKS.length;
+
 export interface IOption {
   title: string;
+  img: string;
   correct?: boolean;
 }
 
 export interface IQuestion {
-    img: string;
-    options: IOption[];
+  title: string;
+  img: string;
+  options: IOption[];
 }
 
 @Injectable({
@@ -60,19 +64,19 @@ export class QuestionService {
   }
 
   getQuestions(numOptions: number) : IQuestion[] {
-    numOptions = Math.min(numOptions, RANKS.length);
+    numOptions = Math.max(1, Math.min(numOptions, RANKS.length));
 
     let me = this;
     let q : IQuestion[] = [];
 
     RANKS.forEach(function(r) {
-      let optionsSet = new Set<string>();
+      let optionsSet = new Set<{title: string, img: string}>();
 
-      optionsSet.add(r.title);
+      optionsSet.add(r);
       while (optionsSet.size < numOptions)
-        optionsSet.add(RANKS[me.randInt(RANKS.length)].title);
+        optionsSet.add(RANKS[me.randInt(RANKS.length)]);
 
-      q.push({ img: r.img, options: me.shuffle([...optionsSet!].map(x => ({ title: x, ...(x===r.title && { correct: true } )}))) });
+      q.push({ title: r.title, img: r.img, options: me.shuffle([...optionsSet!].map(x => ({ title: x.title, img: x.img, ...(x.title===r.title && { correct: true } )}))) });
     });
 
     return this.shuffle(q);

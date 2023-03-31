@@ -20,6 +20,26 @@ li .card.disabled {
     cursor: not-allowed;
 }
 
+.card.disabled img {
+    filter: grayscale(100%);
+}
+
 ol {
     padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.reverse-mode ol {
+    display: inline-flex;
+    flex-wrap: wrap;;
+}
+
+.reverse-mode li {
+    padding: 3px;
+    margin: 0;
+}
+
+.reverse-mode .card {
+    padding: 3px;
+    border-radius: 0;
 }

@@ -2,12 +2,19 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { QuestionService, IQuestion, IOption } from '../service/question.service';
 
+export enum Mode {
+  CLASSIC,
+  REVERSE
+}
+
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss', '../app.component.scss' ]
 })
 export class QuestionComponent {
+  public get Mode() { return Mode; }
+
   public questionList : IQuestion[] = [];
   public currentQuestion: number = 0;
 
@@ -16,12 +23,20 @@ export class QuestionComponent {
 
   public disabledButtons: HTMLElement[] = [];
 
+  private difficulty: number = 4;
+  public mode : Mode = Mode.CLASSIC;
+
   constructor(private questionService: QuestionService, private router: Router) {
-    let state = this.router.getCurrentNavigation()?.extras.state as { welcomeShown : boolean };
+    let state = this.router.getCurrentNavigation()?.extras.state as { welcomeShown : boolean, difficulty: number, mode: Mode };
+
+    console.log(state);
 
     if (state?.welcomeShown === undefined || !state.welcomeShown) {
       router.navigateByUrl('/');
     }
+
+    this.difficulty = state.difficulty;
+    this.mode = state.mode;
   }
 
   ngOnInit() : void {
@@ -29,7 +44,7 @@ export class QuestionComponent {
   }
 
   getAllQuestions() : IQuestion[] {
-    return this.questionService.getQuestions(4);
+    return this.questionService.getQuestions(this.difficulty);
   }
 
   answer(button: HTMLElement, questionNumber: number, opt : IOption) {
