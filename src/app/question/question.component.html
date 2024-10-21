@@ -11,7 +11,7 @@
         <div class="question">
             <div class="card" *ngIf="mode == Mode.CLASSIC">
                 <h3>Kokia tai pareigybė?</h3>
-                <img src="{{questionList[currentQuestion].img}}" width="60px" height="100px"/>
+                <img src="{{questionList[currentQuestion].img}}" width="72px" height="130px"/>
             </div>
             <div class="card" *ngIf="mode == Mode.REVERSE">
                 <h3>Koks šios pareigybės ženklinimas?</h3>
@@ -25,7 +25,7 @@
                 <li *ngFor="let option of questionList[currentQuestion].options" #button (click)="answer(button, currentQuestion, option)">
                     <div *ngIf="mode == Mode.CLASSIC" class="card" [ngClass]="disabledButtons.includes(button) ? { disabled: 'yes' } : {}">{{option.title}}</div>
                     <div *ngIf="mode == Mode.REVERSE" class="card" [ngClass]="disabledButtons.includes(button) ? { disabled: 'yes' } : {}">
-                        <img src="{{option.img}}" width="60px" height="100px"/>
+                        <img src="{{option.img}}" width="72px" height="130px"/>
                     </div>
                 </li>
             </ol>
